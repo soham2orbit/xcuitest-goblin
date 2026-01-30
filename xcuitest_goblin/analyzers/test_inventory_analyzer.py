@@ -211,9 +211,7 @@ class TestInventoryAnalyzer(BaseAnalyzer):
             Dictionary with naming pattern analysis, or None if not configured
         """
         # Get configured pattern - if None, skip naming analysis
-        configured_pattern = get_threshold(
-            "test_file_naming", "pattern", None
-        )
+        configured_pattern = get_threshold("test_file_naming", "pattern", None)
 
         if configured_pattern is None:
             return None
@@ -227,7 +225,7 @@ class TestInventoryAnalyzer(BaseAnalyzer):
 
         # Extract the suffix from the pattern (e.g., "Tests.swift" from "[Feature]Tests.swift")
         # Pattern format: [Feature]Suffix.swift or similar
-        suffix_match = re.search(r'\](.+)$', configured_pattern)
+        suffix_match = re.search(r"\](.+)$", configured_pattern)
         if suffix_match:
             expected_suffix = suffix_match.group(1)
         else:

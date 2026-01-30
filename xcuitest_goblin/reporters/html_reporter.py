@@ -33,16 +33,14 @@ class HTMLReporter:
                 test_inventory, accessibility_data, test_plans, screen_graph
             ),
             "test_inventory": (
-                self._build_test_inventory(test_inventory)
-                if test_inventory else ""
+                self._build_test_inventory(test_inventory) if test_inventory else ""
             ),
             "accessibility": (
                 self._build_accessibility(accessibility_data)
-                if accessibility_data else ""
+                if accessibility_data
+                else ""
             ),
-            "test_plans": (
-                self._build_test_plans(test_plans) if test_plans else ""
-            ),
+            "test_plans": (self._build_test_plans(test_plans) if test_plans else ""),
             "screen_graph": (
                 self._build_screen_graph(screen_graph)
                 if screen_graph and screen_graph.get("has_screen_graph")
@@ -399,24 +397,39 @@ class HTMLReporter:
         # Build issue cards (top row - highlighted)
         issue_cards = []
         if naming_issues is not None:
-            issue_cards.append(self._issue_card(
-                naming_issues, "Naming Issues",
-                "danger" if naming_issues > 10 else (
-                    "warning" if naming_issues > 0 else "success"
+            issue_cards.append(
+                self._issue_card(
+                    naming_issues,
+                    "Naming Issues",
+                    (
+                        "danger"
+                        if naming_issues > 10
+                        else ("warning" if naming_issues > 0 else "success")
+                    ),
                 )
-            ))
-        issue_cards.append(self._issue_card(
-            orphaned_tests, "Orphaned Tests",
-            "danger" if orphaned_tests > 50 else (
-                "warning" if orphaned_tests > 0 else "success"
             )
-        ))
-        issue_cards.append(self._issue_card(
-            large_files, "Large Files",
-            "danger" if large_files > 5 else (
-                "warning" if large_files > 0 else "success"
+        issue_cards.append(
+            self._issue_card(
+                orphaned_tests,
+                "Orphaned Tests",
+                (
+                    "danger"
+                    if orphaned_tests > 50
+                    else ("warning" if orphaned_tests > 0 else "success")
+                ),
             )
-        ))
+        )
+        issue_cards.append(
+            self._issue_card(
+                large_files,
+                "Large Files",
+                (
+                    "danger"
+                    if large_files > 5
+                    else ("warning" if large_files > 0 else "success")
+                ),
+            )
+        )
 
         # Build info cards (bottom row - informational)
         info_cards = []
@@ -432,8 +445,8 @@ class HTMLReporter:
                 self._info_card(len(test_plans.get("test_plans", [])), "Test Plans")
             )
 
-        return f'''<div class="summary-grid issue-row">{"".join(issue_cards)}</div>
-        <div class="summary-grid info-row">{"".join(info_cards)}</div>'''
+        return f"""<div class="summary-grid issue-row">{"".join(issue_cards)}</div>
+        <div class="summary-grid info-row">{"".join(info_cards)}</div>"""
 
     def _issue_card(self, value: Any, label: str, severity: str = "warning") -> str:
         return f"""
@@ -500,8 +513,10 @@ class HTMLReporter:
             consistency_str = naming.get("consistency", "0%")
             consistency = float(consistency_str.replace("%", ""))
 
-            progress_class = "good" if consistency >= 90 else (
-                "warning" if consistency >= 70 else "danger"
+            progress_class = (
+                "good"
+                if consistency >= 90
+                else ("warning" if consistency >= 70 else "danger")
             )
 
             non_compliant_html = self._build_non_compliant_files(data)
@@ -536,16 +551,20 @@ class HTMLReporter:
                 "non_compliant_count", len(m_non_compliant)
             )
 
-            m_progress_class = "good" if m_consistency >= 85 else (
-                "warning" if m_consistency >= 70 else "danger"
+            m_progress_class = (
+                "good"
+                if m_consistency >= 85
+                else ("warning" if m_consistency >= 70 else "danger")
             )
 
             # Build breakdown display
-            breakdown_items = " | ".join([
-                f"{style}: {count}"
-                for style, count in m_breakdown.items()
-                if count > 0
-            ])
+            breakdown_items = " | ".join(
+                [
+                    f"{style}: {count}"
+                    for style, count in m_breakdown.items()
+                    if count > 0
+                ]
+            )
 
             # Build non-compliant methods table
             m_non_compliant_html = ""
@@ -553,8 +572,14 @@ class HTMLReporter:
                 # Build table rows (show first 20)
                 method_rows = ""
                 for item in m_non_compliant[:20]:
-                    method = item.get("method", item) if isinstance(item, dict) else item
-                    style = item.get("detected_style", "unknown") if isinstance(item, dict) else "unknown"
+                    method = (
+                        item.get("method", item) if isinstance(item, dict) else item
+                    )
+                    style = (
+                        item.get("detected_style", "unknown")
+                        if isinstance(item, dict)
+                        else "unknown"
+                    )
                     method_rows += f"""<tr>
                         <td><code>{method}</code></td>
                         <td>{style}</td>
@@ -601,14 +626,11 @@ class HTMLReporter:
         sorted_files = sorted(
             files, key=lambda x: x.get("test_count", 0), reverse=True
         )[:20]
-        files_rows = "".join([
-            f"""<tr>
+        files_rows = "".join([f"""<tr>
                 <td><code>{f.get('file_name', '')}</code></td>
                 <td>{f.get('test_count', 0)}</td>
                 <td>{', '.join(f.get('test_classes', []))}</td>
-            </tr>"""
-            for f in sorted_files
-        ])
+            </tr>""" for f in sorted_files])
 
         return f"""
         <section id="test-inventory">
@@ -694,13 +716,13 @@ class HTMLReporter:
         for cat, cat_files in categories.items():
             if not cat_files:
                 continue
-            file_tags = " ".join([
-                f'<span class="file-tag">{f}</span>'
-                for f in cat_files[:5]
-            ])
+            file_tags = " ".join(
+                [f'<span class="file-tag">{f}</span>' for f in cat_files[:5]]
+            )
             more = (
                 f' <span class="note">...and {len(cat_files) - 5} more</span>'
-                if len(cat_files) > 5 else ""
+                if len(cat_files) > 5
+                else ""
             )
             html_parts.append(f"""
             <div class="naming-category">
@@ -710,7 +732,7 @@ class HTMLReporter:
 
         html_parts.append(
             '<p class="json-ref">See <a href="test_inventory.json">test_inventory.json</a> → '
-            '<code>test_files</code> for complete list</p>'
+            "<code>test_files</code> for complete list</p>"
         )
         return "".join(html_parts)
 
@@ -759,10 +781,12 @@ class HTMLReporter:
         generic_warning = ""
         generic_ids = [i for i in top_ids if i.get("usage_count", 0) > 50]
         if generic_ids:
-            items = ", ".join([
-                f"<code>{i.get('id', '')}</code> ({i.get('usage_count', 0)} uses)"
-                for i in generic_ids[:5]
-            ])
+            items = ", ".join(
+                [
+                    f"<code>{i.get('id', '')}</code> ({i.get('usage_count', 0)} uses)"
+                    for i in generic_ids[:5]
+                ]
+            )
             generic_warning = f"""
             <h3>Warning: Potentially Generic IDs</h3>
             <p>The following IDs are used very frequently and may be too generic:</p>
@@ -775,10 +799,7 @@ class HTMLReporter:
         if unused_count > 0:
             # Get full identifier data for defined_in info
             all_identifiers = data.get("identifiers", [])
-            unused_data = [
-                i for i in all_identifiers
-                if i.get("id") in unused_ids
-            ]
+            unused_data = [i for i in all_identifiers if i.get("id") in unused_ids]
 
             # Build table rows (show first 20)
             unused_rows = ""
@@ -880,7 +901,7 @@ class HTMLReporter:
         plans_rows = ""
         for plan in plans:
             # Calculate tests in plan: total - skipped for Include All plans
-            skipped = plan.get('tests_skipped', 0)
+            skipped = plan.get("tests_skipped", 0)
             tests_in_plan = total_unique - skipped if total_unique > 0 else 0
             plans_rows += f"""
             <tr>
@@ -994,10 +1015,12 @@ class HTMLReporter:
             by_class[cls] = by_class.get(cls, 0) + 1
 
         sorted_classes = sorted(by_class.items(), key=lambda x: x[1], reverse=True)
-        rows = "".join([
-            f"<tr><td>{cls}</td><td>{count}</td></tr>"
-            for cls, count in sorted_classes
-        ])
+        rows = "".join(
+            [
+                f"<tr><td>{cls}</td><td>{count}</td></tr>"
+                for cls, count in sorted_classes
+            ]
+        )
 
         return f"""
         <h3>Orphaned Tests
@@ -1033,9 +1056,7 @@ class HTMLReporter:
             by_class.setdefault(cls, []).append(method)
 
         # Sort by count
-        sorted_classes = sorted(
-            by_class.items(), key=lambda x: len(x[1]), reverse=True
-        )
+        sorted_classes = sorted(by_class.items(), key=lambda x: len(x[1]), reverse=True)
 
         # Build table rows for top 20 classes
         rows = []
@@ -1074,16 +1095,18 @@ class HTMLReporter:
         total_screens = data.get("total_screens", 0)
         adoption = data.get("navigator_adoption_rate", 0)
 
-        progress_class = "good" if adoption >= 80 else (
-            "warning" if adoption >= 50 else "danger"
+        progress_class = (
+            "good" if adoption >= 80 else ("warning" if adoption >= 50 else "danger")
         )
 
         top_screens = data.get("top_screens", [])[:10]
-        screens_rows = "".join([
-            f"<tr><td><code>{s.get('screen', '')}</code></td>"
-            f"<td>{s.get('usage_count', 0)}</td></tr>"
-            for s in top_screens
-        ])
+        screens_rows = "".join(
+            [
+                f"<tr><td><code>{s.get('screen', '')}</code></td>"
+                f"<td>{s.get('usage_count', 0)}</td></tr>"
+                for s in top_screens
+            ]
+        )
 
         return f"""
         <section id="screen-graph">
@@ -1129,18 +1152,18 @@ class HTMLReporter:
         if test_inventory:
             # 1. Large files
             files = test_inventory.get("test_files", [])
-            large_files = [
-                f for f in files if f.get("test_count", 0) > large_threshold
-            ]
+            large_files = [f for f in files if f.get("test_count", 0) > large_threshold]
             if large_files:
                 sorted_large = sorted(
                     large_files, key=lambda x: x.get("test_count", 0), reverse=True
                 )
-                items = "".join([
-                    f"<li><code>{f.get('file_name', '')}</code> "
-                    f"({f.get('test_count', 0)} tests)</li>"
-                    for f in sorted_large
-                ])
+                items = "".join(
+                    [
+                        f"<li><code>{f.get('file_name', '')}</code> "
+                        f"({f.get('test_count', 0)} tests)</li>"
+                        for f in sorted_large
+                    ]
+                )
                 recs.append(f"""
                 <div class="recommendation">
                     <h4>Split Large Test Files</h4>
@@ -1167,12 +1190,13 @@ class HTMLReporter:
                         if "_" in f.get("file_name", "")
                         or not f.get("file_name", "").endswith("Tests.swift")
                     ][:5]
-                    items = "".join([
-                        f"<li><code>{f}</code></li>" for f in sample_files
-                    ])
+                    items = "".join(
+                        [f"<li><code>{f}</code></li>" for f in sample_files]
+                    )
                     more = (
                         f"<li><em>...and {non_compliant - 5} more</em></li>"
-                        if non_compliant > 5 else ""
+                        if non_compliant > 5
+                        else ""
                     )
                     recs.append(f"""
                 <div class="recommendation">
@@ -1198,13 +1222,16 @@ class HTMLReporter:
                     m_methods = method_naming.get("non_compliant_methods", [])
                     m_count = method_naming.get("non_compliant_count", len(m_methods))
                     # Extract method names from dict or use directly if string
-                    m_items = "".join([
-                        f"<li><code>{m.get('method', m) if isinstance(m, dict) else m}</code></li>"
-                        for m in m_methods[:5]
-                    ])
+                    m_items = "".join(
+                        [
+                            f"<li><code>{m.get('method', m) if isinstance(m, dict) else m}</code></li>"
+                            for m in m_methods[:5]
+                        ]
+                    )
                     m_more = (
                         f"<li><em>...and {m_count - 5} more</em></li>"
-                        if m_count > 5 else ""
+                        if m_count > 5
+                        else ""
                     )
                     recs.append(f"""
                 <div class="recommendation">
@@ -1223,11 +1250,13 @@ class HTMLReporter:
                 i for i in top_ids if i.get("usage_count", 0) > generic_threshold
             ]
             if generic_ids:
-                items = "".join([
-                    f"<li><code>{i.get('id', '')}</code> "
-                    f"({i.get('usage_count', 0)} uses)</li>"
-                    for i in generic_ids
-                ])
+                items = "".join(
+                    [
+                        f"<li><code>{i.get('id', '')}</code> "
+                        f"({i.get('usage_count', 0)} uses)</li>"
+                        for i in generic_ids
+                    ]
+                )
                 recs.append(f"""
                 <div class="recommendation">
                     <h4>Refine Generic Accessibility IDs</h4>
@@ -1244,13 +1273,13 @@ class HTMLReporter:
             unused_ids = accessibility_data.get("unused_identifiers", [])
             unused_count = accessibility_data.get("unused_count", len(unused_ids))
             if unused_count > unused_threshold:
-                items = "".join([
-                    f"<li><code>{uid}</code></li>"
-                    for uid in unused_ids[:10]
-                ])
+                items = "".join(
+                    [f"<li><code>{uid}</code></li>" for uid in unused_ids[:10]]
+                )
                 more = (
                     f"<li><em>...and {unused_count - 10} more</em></li>"
-                    if unused_count > 10 else ""
+                    if unused_count > 10
+                    else ""
                 )
                 recs.append(f"""
                 <div class="recommendation">
@@ -1272,14 +1301,17 @@ class HTMLReporter:
                 sorted_classes = sorted(
                     by_class.items(), key=lambda x: x[1], reverse=True
                 )
-                items = "".join([
-                    f"<li><code>{cls}</code> ({count} orphaned tests)</li>"
-                    for cls, count in sorted_classes[:10]
-                ])
+                items = "".join(
+                    [
+                        f"<li><code>{cls}</code> ({count} orphaned tests)</li>"
+                        for cls, count in sorted_classes[:10]
+                    ]
+                )
                 remaining = len(sorted_classes) - 10
                 more = (
                     f"<li><em>...and {remaining} more files</em></li>"
-                    if remaining > 0 else ""
+                    if remaining > 0
+                    else ""
                 )
                 recs.append(f"""
                 <div class="recommendation critical">
@@ -1295,15 +1327,18 @@ class HTMLReporter:
             multi_count = test_plans.get("tests_in_multiple_plans_count", 0)
             if multi_count > 0:
                 multi_tests = test_plans.get("tests_in_multiple_plans", [])
-                items = "".join([
-                    f"<li><code>{t.get('test', '')}</code> appears in "
-                    f"{t.get('plan_count', 0)} plans</li>"
-                    for t in multi_tests[:5]
-                ])
+                items = "".join(
+                    [
+                        f"<li><code>{t.get('test', '')}</code> appears in "
+                        f"{t.get('plan_count', 0)} plans</li>"
+                        for t in multi_tests[:5]
+                    ]
+                )
                 remaining = multi_count - 5
                 more = (
                     f"<li><em>...and {remaining} more</em></li>"
-                    if remaining > 0 else ""
+                    if remaining > 0
+                    else ""
                 )
                 recs.append(f"""
                 <div class="recommendation">
@@ -1321,13 +1356,12 @@ class HTMLReporter:
             skipped_count = test_plans.get("skipped_tests_count", 0)
             if skipped_count > 0:
                 skipped = test_plans.get("skipped_tests", [])
-                items = "".join([
-                    f"<li><code>{t}</code></li>" for t in skipped[:5]
-                ])
+                items = "".join([f"<li><code>{t}</code></li>" for t in skipped[:5]])
                 remaining = skipped_count - 5
                 more = (
                     f"<li><em>...and {remaining} more</em></li>"
-                    if remaining > 0 else ""
+                    if remaining > 0
+                    else ""
                 )
                 recs.append(f"""
                 <div class="recommendation">

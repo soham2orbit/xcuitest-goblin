@@ -379,8 +379,7 @@ class AccessibilityAnalyzer(BaseAnalyzer):
 
         # Get unused identifiers (defined but never used in tests)
         unused_ids = [
-            item["id"] for item in identifiers_list
-            if item["usage_count"] == 0
+            item["id"] for item in identifiers_list if item["usage_count"] == 0
         ]
 
         # Calculate totals
