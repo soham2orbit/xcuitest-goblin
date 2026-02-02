@@ -86,20 +86,21 @@ class HTMLReporter:
     def _get_css(self) -> str:
         return """
         :root {
-            --primary: #007AFF;
-            --success: #34C759;
-            --warning: #FF9500;
-            --danger: #FF3B30;
-            --bg: #f5f5f7;
-            --card-bg: #ffffff;
-            --text: #1d1d1f;
-            --text-secondary: #86868b;
-            --border: #d2d2d7;
+            --primary: #58a6ff;
+            --success: #3fb950;
+            --warning: #d29922;
+            --danger: #f85149;
+            --bg: #0d1117;
+            --bg-secondary: #161b22;
+            --card-bg: #21262d;
+            --text: #e6edf3;
+            --text-secondary: #8b949e;
+            --border: #30363d;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text',
-                         'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans',
+                         Helvetica, Arial, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.5;
@@ -112,13 +113,14 @@ class HTMLReporter:
             padding-bottom: 1.5rem;
             border-bottom: 1px solid var(--border);
         }
-        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
         .meta { color: var(--text-secondary); font-size: 0.9rem; }
         .meta code {
-            background: var(--bg);
+            background: var(--bg-secondary);
             padding: 0.2rem 0.5rem;
             border-radius: 4px;
             font-size: 0.85rem;
+            color: var(--text);
         }
         .summary-grid {
             display: grid;
@@ -141,21 +143,24 @@ class HTMLReporter:
             border-radius: 12px;
             padding: 1.5rem;
             text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .summary-card.issue-card {
             border-left: 4px solid var(--border);
         }
         .summary-card.issue-card.danger {
             border-left-color: var(--danger);
+            background: rgba(248, 81, 73, 0.1);
         }
         .summary-card.issue-card.danger .value { color: var(--danger); }
         .summary-card.issue-card.warning {
             border-left-color: var(--warning);
+            background: rgba(210, 153, 34, 0.1);
         }
         .summary-card.issue-card.warning .value { color: var(--warning); }
         .summary-card.issue-card.success {
             border-left-color: var(--success);
+            background: rgba(63, 185, 80, 0.1);
         }
         .summary-card.issue-card.success .value { color: var(--success); }
         .summary-card .value {
@@ -173,7 +178,7 @@ class HTMLReporter:
             border-radius: 12px;
             padding: 1.5rem 2rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         h2 {
             font-size: 1.5rem;
@@ -181,6 +186,7 @@ class HTMLReporter:
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--primary);
+            color: var(--text);
         }
         h3 {
             font-size: 1.1rem;
@@ -201,6 +207,7 @@ class HTMLReporter:
         }
         h4 {
             margin-top: 1.5rem;
+            color: var(--text);
         }
         table {
             width: 100%;
@@ -214,14 +221,19 @@ class HTMLReporter:
             border-bottom: 1px solid var(--border);
         }
         th {
-            background: var(--bg);
+            background: var(--bg-secondary);
             font-weight: 600;
             color: var(--text-secondary);
             text-transform: uppercase;
             font-size: 0.75rem;
             letter-spacing: 0.5px;
         }
-        tr:hover { background: var(--bg); }
+        td { color: var(--text); }
+        tr:hover { background: rgba(255,255,255,0.03); }
+        code {
+            font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+            color: var(--text);
+        }
         .stat-row {
             display: flex;
             justify-content: space-between;
@@ -230,7 +242,7 @@ class HTMLReporter:
         }
         .stat-row:last-child { border-bottom: none; }
         .stat-label { color: var(--text-secondary); }
-        .stat-value { font-weight: 600; }
+        .stat-value { font-weight: 600; color: var(--text); }
         .badge {
             display: inline-block;
             padding: 0.25rem 0.75rem;
@@ -238,33 +250,35 @@ class HTMLReporter:
             font-size: 0.8rem;
             font-weight: 500;
         }
-        .badge-success { background: #d1f7dd; color: #1a7f37; }
-        .badge-warning { background: #fff3cd; color: #856404; }
-        .badge-danger { background: #fee2e2; color: #991b1b; }
-        .badge-info { background: #dbeafe; color: #1e40af; }
+        .badge-success { background: rgba(63, 185, 80, 0.2); color: var(--success); }
+        .badge-warning { background: rgba(210, 153, 34, 0.2); color: var(--warning); }
+        .badge-danger { background: rgba(248, 81, 73, 0.2); color: var(--danger); }
+        .badge-info { background: rgba(88, 166, 255, 0.2); color: var(--primary); }
         .recommendation {
             padding: 1rem 1.25rem;
             margin: 0.75rem 0;
             border-left: 4px solid var(--warning);
-            background: #fffbeb;
+            background: rgba(210, 153, 34, 0.1);
             border-radius: 0 8px 8px 0;
         }
         .recommendation.critical {
             border-left-color: var(--danger);
-            background: #fef2f2;
+            background: rgba(248, 81, 73, 0.1);
         }
         .recommendation h4 {
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            color: var(--text);
         }
+        .recommendation p { color: var(--text-secondary); }
         .recommendation ul {
             margin: 0.5rem 0 0 1.5rem;
             color: var(--text-secondary);
         }
         .recommendation li { margin: 0.25rem 0; }
         .recommendation code {
-            background: rgba(0,0,0,0.05);
+            background: rgba(255,255,255,0.1);
             padding: 0.1rem 0.4rem;
             border-radius: 3px;
             font-size: 0.85rem;
@@ -276,11 +290,13 @@ class HTMLReporter:
             margin-top: 0.5rem;
         }
         .file-tag {
-            background: var(--bg);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
             padding: 0.25rem 0.75rem;
-            border-radius: 6px;
+            border-radius: 999px;
             font-size: 0.85rem;
-            font-family: 'SF Mono', Monaco, monospace;
+            font-family: 'SF Mono', SFMono-Regular, Consolas, monospace;
+            color: var(--text);
         }
         .json-ref {
             color: var(--text-secondary);
@@ -288,17 +304,13 @@ class HTMLReporter:
             margin-top: 0.75rem;
         }
         .json-ref a {
-            background: var(--bg);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
             color: var(--primary);
             text-decoration: none;
-            font-family: 'SF Mono', Monaco, monospace;
+            font-family: 'SF Mono', SFMono-Regular, Consolas, monospace;
             font-size: 0.85rem;
         }
         .json-ref a:hover {
             text-decoration: underline;
-            background: #e8e8ed;
         }
         .progress-bar {
             height: 8px;
@@ -318,7 +330,7 @@ class HTMLReporter:
         .naming-category {
             margin: 1rem 0;
             padding: 1rem;
-            background: var(--bg);
+            background: var(--bg-secondary);
             border-radius: 8px;
         }
         .naming-category h4 {
@@ -331,7 +343,7 @@ class HTMLReporter:
             border-radius: 12px;
             padding: 1.5rem 2rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .toc h2 {
             font-size: 1.2rem;
@@ -362,6 +374,9 @@ class HTMLReporter:
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin-top: 0.5rem;
+        }
+        @media (max-width: 640px) {
+            .summary-grid { grid-template-columns: repeat(2, 1fr); }
         }
         """
 
